@@ -1250,7 +1250,7 @@
 
     @media (max-width: 768px) {
       .flowers {
-        transform: scale(0.85) translateY(-2vmin);
+        transform: scale(1.3) translateY(-2vmin);
         margin-bottom: -5vmin;
       }
 
@@ -1275,14 +1275,14 @@
 
     @media (max-width: 600px) {
       .flowers {
-        transform: scale(0.75) translateY(-1vmin);
+        transform: scale(1.1) translateY(-1vmin);
         margin-bottom: -3vmin;
       }
     }
 
     @media (max-width: 480px) {
       .flowers {
-        transform: scale(0.7) translateY(0vmin);
+        transform: scale(1.05) translateY(0vmin);
         margin-bottom: 0vmin;
       }
 
@@ -1307,7 +1307,7 @@
 
     @media (max-width: 420px) {
       .flowers {
-        transform: scale(0.62) translateY(1vmin);
+        transform: scale(0.9) translateY(1vmin);
         margin-bottom: 2vmin;
       }
 
@@ -1318,7 +1318,7 @@
 
     @media (max-width: 360px) {
       .flowers {
-        transform: scale(0.55) translateY(2vmin);
+        transform: scale(0.8) translateY(2vmin);
         margin-bottom: 4vmin;
       }
 
@@ -1848,17 +1848,20 @@
       }
     };
 
-    // Play audio on first user interaction
-    document.addEventListener('click', startAudio, { once: true });
-    document.addEventListener('touchstart', startAudio, { once: true });
-
+    // Try to play audio on page load
     onload = () => {
       const c = setTimeout(() => {
         document.body.classList.remove("not-loaded");
         document.querySelector('.text-reveal').classList.add('animate');
+        // Try to autoplay music
+        startAudio();
         clearTimeout(c);
       }, 1000);
     };
+
+    // Play audio on first user interaction as fallback
+    document.addEventListener('click', startAudio, { once: true });
+    document.addEventListener('touchstart', startAudio, { once: true });
 
     function showFlowers() {
       const btn = document.querySelector('.click-btn');
