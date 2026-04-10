@@ -1352,13 +1352,6 @@
       font-weight: 900;
       font-family: 'Righteous', sans-serif;
       color: #E8E8E8;
-      text-shadow: 
-        0 0 10px rgba(232, 232, 232, 0.8),
-        0 0 20px rgba(232, 232, 232, 0.6),
-        0 0 40px rgba(232, 232, 232, 0.4),
-        2px 2px 8px rgba(0, 0, 0, 0.9),
-        4px 4px 12px rgba(0, 0, 0, 0.7),
-        -2px -2px 8px rgba(255, 105, 180, 0.3);
       letter-spacing: 2px;
       pointer-events: none;
       max-width: 90vw;
@@ -1848,13 +1841,13 @@
       }
     };
 
-    // Try to play audio on page load
+    // Play audio immediately on page load
+    startAudio();
+
     onload = () => {
       const c = setTimeout(() => {
         document.body.classList.remove("not-loaded");
         document.querySelector('.text-reveal').classList.add('animate');
-        // Try to autoplay music
-        startAudio();
         clearTimeout(c);
       }, 1000);
     };
