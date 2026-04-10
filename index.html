@@ -1477,7 +1477,7 @@
   </style>
 </head>
 <body class="not-loaded">
-  <audio id="bg-audio" loop>
+  <audio id="bg-audio" autoplay muted loop>
     <source src="ssstik.io_1775820467940.mp3" type="audio/mpeg">
   </audio>
   <div class="night"></div>
@@ -1832,17 +1832,16 @@
     const audio = document.getElementById('bg-audio');
     let audioStarted = false;
 
-    const startAudio = () => {
+    const unmuteAudio = () => {
       if (!audioStarted) {
-        audio.play().catch(() => {
-          console.log('Audio autoplay blocked by browser');
-        });
+        audio.muted = false;
         audioStarted = true;
       }
     };
 
-    // Play audio immediately on page load
-    startAudio();
+    // Unmute and play on first user interaction
+    document.addEventListener('click', unmuteAudio);
+    document.addEventListener('touchstart', unmuteAudio);
 
     onload = () => {
       const c = setTimeout(() => {
@@ -1851,10 +1850,6 @@
         clearTimeout(c);
       }, 1000);
     };
-
-    // Play audio on first user interaction as fallback
-    document.addEventListener('click', startAudio, { once: true });
-    document.addEventListener('touchstart', startAudio, { once: true });
 
     function showFlowers() {
       const btn = document.querySelector('.click-btn');
@@ -1866,7 +1861,7 @@
       flowers.classList.add('show');
       
       // Ensure audio is playing
-      startAudio();
+      unmuteAudio();
       
       setTimeout(() => {
         msg.textContent = 'Enjoy the magical garden! 🌺✨';
