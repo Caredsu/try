@@ -1477,7 +1477,7 @@
   </style>
 </head>
 <body class="not-loaded">
-  <audio id="bg-audio" autoplay muted loop>
+  <audio id="bg-audio" loop>
     <source src="Fitterkarma - Kalapastangan (Trend Lyrics Loop).mp3" type="audio/mpeg">
   </audio>
   <div class="night"></div>
@@ -1832,21 +1832,27 @@
     const audio = document.getElementById('bg-audio');
     let audioStarted = false;
 
-    const unmuteAudio = () => {
+    const playAudio = () => {
       if (!audioStarted) {
-        audio.muted = false;
+        audio.play().catch(() => {
+          console.log('Audio autoplay blocked by browser');
+        });
         audioStarted = true;
       }
     };
 
-    // Unmute and play on first user interaction
-    document.addEventListener('click', unmuteAudio);
-    document.addEventListener('touchstart', unmuteAudio);
+    // Play audio on first user interaction as fallback
+    document.addEventListener('click', playAudio, { once: true });
+    document.addEventListener('touchstart', playAudio, { once: true });
 
     onload = () => {
       const c = setTimeout(() => {
         document.body.classList.remove("not-loaded");
         document.querySelector('.text-reveal').classList.add('animate');
+        // Play music after text animation completes
+        setTimeout(() => {
+          playAudio();
+        }, 3000);
         clearTimeout(c);
       }, 1000);
     };
@@ -1861,7 +1867,7 @@
       flowers.classList.add('show');
       
       // Ensure audio is playing
-      unmuteAudio();
+      playAudio();
       
       setTimeout(() => {
         msg.textContent = 'Enjoy the magical garden! 🌺✨';
